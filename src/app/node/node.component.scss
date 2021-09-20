@@ -2,12 +2,16 @@
   margin: 0.75rem 0;
 }
 
+.node__main {
+  display: inline-flex;
+  align-items: center;
+}
+
 .node__icon {
   width: 1.25rem;
   height: 1.25rem;
   margin-right: 0.25rem;
 }
-
 
 .node--visible .node__children {
   margin: 1.25rem;
@@ -27,6 +31,10 @@
   }
 }
 
+.node__child {
+  display: block;
+}
+
 .node--folder .node__child {
   position: relative;
   &::before {
@@ -35,8 +43,41 @@
     height: 1px;
     border-bottom: solid 1px black;
     position: absolute;
-    bottom: -13px;
+    bottom: 11px;
     left: -0.8rem;
     width: 0.5rem;
+  }
+}
+
+.node--uncommitted {
+  border: solid 1px black;
+  display: inline-flex;
+  padding: 0.5rem;
+  align-items: center;
+  margin-top: 0;
+}
+
+.button--black {
+  background: black;
+  color: white;
+}
+
+.button--white {
+  background: white;
+  color: black;
+}
+
+.node__hover-buttons {
+  display: none;
+  margin-left: 0.5rem;
+}
+
+.margin-left {
+  margin-left: 0.5rem;
+}
+
+.node__main:hover {
+  .node__hover-buttons {
+    display: inline-flex;
   }
 }

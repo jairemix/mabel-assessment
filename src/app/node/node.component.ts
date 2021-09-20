@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { NodeModel } from '@/app/node.model';
 import { FolderService } from '../folder-service/folder.service';
 
@@ -8,9 +8,17 @@ import { FolderService } from '../folder-service/folder.service';
   styleUrls: ['./node.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NodeComponent implements OnChanges {
+export class NodeComponent {
 
-  @Input() node: NodeModel;
+  @Input() set node (n: NodeModel) {
+    // node changed
+    this._node = n;
+    this.nodeIcon = this._getNodeIcon(this.node.type);
+  }
+  get node () {
+    return this._node;
+  }
+  private _node: NodeModel;
 
   nodeIcon: string;
 
@@ -18,14 +26,26 @@ export class NodeComponent implements OnChanges {
 
   constructor(private folderService: FolderService) {}
 
-  ngOnChanges(c: SimpleChanges) {
-    if (c.node) {
-      this.nodeIcon = this._getNodeIcon(this.node.type);
+  deleteNode() {
+    this.folderService.deleteNode(this.node);
+  }
+
+  commitNode() {
+    const parent = this.folderService.getNodeParent(this.node);
+    if (parent && parent.type === 'root') {
+      this.node.uncommitted = false;
     }
   }
 
-  deleteNode() {
+  cancelAddition() {
     this.folderService.deleteNode(this.node);
+  }
+
+  addFolder() {
+    this.folderService.addNode(this.node, {
+      type: 'unset',
+      uncommitted: true,
+    });
   }
 
   private _getNodeIcon(type: NodeModel['type']) {

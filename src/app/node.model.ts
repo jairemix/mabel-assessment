@@ -3,4 +3,5 @@ export class NodeModel {
     name?: string;
     children?: NodeModel[];
     id: string;
+    uncommitted?: boolean;
 }

@@ -1,12 +1,21 @@
-<div class="node node--{{node.type}}" [class.node--visible]="node.type !== 'root'" (click)="deleteNode(); $event.stopPropagation()">
+<div class="node node--{{node.type}}" [class.node--visible]="node.type !== 'root'" [class.node--uncommitted]="node.uncommitted">
   
   <!-- don't display node itself if it is root -->
-  <ng-container *ngIf="node.type !== 'root'">
+  <div class="node__main" *ngIf="node.type !== 'root'">
     <img class="node__icon" [src]="nodeIcon" *ngIf="nodeIcon" />
-    {{node.name}}
-  </ng-container>
+    <span *ngIf="!node.uncommitted">{{node.name}}</span>
+    <ng-container *ngIf="node.uncommitted">
+      <input [(ngModel)]="node.name" />
+      <button (click)="commitNode()" class="button--black margin-left">✔</button>
+      <button (click)="cancelAddition()" class="button--white margin-left">✖</button>
+    </ng-container>
+    <div class="node__hover-buttons" *ngIf="!node.uncommitted">
+      <button class="button--black margin-left" (click)="addFolder()">+</button>
+      <button class="button--white margin-left" (click)="deleteNode()">🗑</button>
+    </div>
+  </div>
 
-  <div class="node__children">
+  <div class="node__children" *ngIf="node.children?.length">
     <app-node class="node__child" *ngFor="let node of node.children; trackBy: trackNode" [node]="node"></app-node>
   </div>
 

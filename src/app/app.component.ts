@@ -17,13 +17,18 @@ export class AppComponent {
 
   addFolderToRoot() {
 
-    // need to recreate objects to preserve immutability for change detection
-    // TODO: trigger interface
     this.folderService.addNode(this.folderService.getRoot(), {
       name: 'my_first_folder',
       type: 'folder',
+      uncommitted: true,
       children: [],
     });
+
+    // this.folderService.addNode(this.folderService.getRoot(), {
+    //   name: 'my_first_folder',
+    //   type: 'folder',
+    //   children: [],
+    // });
   }
 
 }
