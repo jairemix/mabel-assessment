@@ -1,0 +1,13 @@
+<div class="node node--{{node.type}}" [class.node--visible]="node.type !== 'root'" (click)="deleteNode(); $event.stopPropagation()">
+  
+  <!-- don't display node itself if it is root -->
+  <ng-container *ngIf="node.type !== 'root'">
+    <img class="node__icon" [src]="nodeIcon" *ngIf="nodeIcon" />
+    {{node.name}}
+  </ng-container>
+
+  <div class="node__children">
+    <app-node class="node__child" *ngFor="let node of node.children; trackBy: trackNode" [node]="node"></app-node>
+  </div>
+
+</div>
