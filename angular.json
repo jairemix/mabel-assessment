@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mabel-assessment": {
+    "mable-assessment": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mabel-assessment",
+            "outputPath": "dist/mable-assessment",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -66,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "mabel-assessment:build"
+            "browserTarget": "mable-assessment:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "mabel-assessment:build:production"
+              "browserTarget": "mable-assessment:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mabel-assessment:build"
+            "browserTarget": "mable-assessment:build"
           }
         },
         "test": {
@@ -114,15 +114,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "mabel-assessment:serve"
+            "devServerTarget": "mable-assessment:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "mabel-assessment:serve:production"
+              "devServerTarget": "mable-assessment:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "mabel-assessment"
+  "defaultProject": "mable-assessment"
 }

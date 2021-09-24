@@ -6,23 +6,10 @@ import { FolderService } from '../folder-service/folder.service';
   selector: 'app-node',
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeComponent {
 
-  @Input() set node (n: NodeModel) {
-    // node changed
-    this._node = n;
-    this.nodeIcon = this._getNodeIcon(this.node.type);
-  }
-  get node () {
-    return this._node;
-  }
-  private _node: NodeModel;
-
-  nodeIcon: string;
-
-  trackNode = (_, node) => node.id;
+  @Input() node: NodeModel;
 
   constructor(private folderService: FolderService) {}
 
@@ -31,8 +18,9 @@ export class NodeComponent {
   }
 
   commitNode() {
-    const parent = this.folderService.getNodeParent(this.node);
-    if (parent && parent.type === 'root') {
+    if (!this.node.name) {
+      this.folderService.deleteNode(this.node);
+    } else {
       this.node.uncommitted = false;
     }
   }
@@ -41,22 +29,11 @@ export class NodeComponent {
     this.folderService.deleteNode(this.node);
   }
 
-  addFolder() {
+  addNode() {
     this.folderService.addNode(this.node, {
       type: 'unset',
       uncommitted: true,
     });
-  }
-
-  private _getNodeIcon(type: NodeModel['type']) {
-    switch (type) {
-      case 'file':
-        return '../../assets/images/file-regular.svg';
-      case 'folder':
-        return '../../assets/images/folder-open-regular.svg';
-      default:
-        return '';
-    }
   }
 
 }

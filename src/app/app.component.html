@@ -8,7 +8,10 @@
   <button class="add-button" type="button" (click)="addFolderToRoot()">Add folder to root</button>
 
   <!-- render root node -->
-  <app-node [node]="rootNode$ | async"></app-node>
+  <app-node [node]="folderService.rootNode"></app-node>
+
+  <!-- display root node contents as JSON -->
+  <textarea class="json-representation" [ngModel]="getJSON()" disabled></textarea>
 
 </div>
 

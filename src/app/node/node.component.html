@@ -1,22 +1,36 @@
-<div class="node node--{{node.type}}" [class.node--visible]="node.type !== 'root'" [class.node--uncommitted]="node.uncommitted">
+<div class="node is-{{node.type}}" [class.is-visible]="node.type !== 'root'" [class.is-uncommitted]="node.uncommitted">
   
   <!-- don't display node itself if it is root -->
-  <div class="node__main" *ngIf="node.type !== 'root'">
-    <img class="node__icon" [src]="nodeIcon" *ngIf="nodeIcon" />
+  <div class="main" *ngIf="node.type !== 'root'">
+
+    <ng-container [ngSwitch]="node.type">
+      <img class="icon" src="../../assets/images/folder-open-regular.svg" *ngSwitchCase="'folder'" />
+      <img class="icon" src="../../assets/images/file-regular.svg" *ngSwitchCase="'file'" />
+    </ng-container>
+
     <span *ngIf="!node.uncommitted">{{node.name}}</span>
     <ng-container *ngIf="node.uncommitted">
-      <input [(ngModel)]="node.name" />
-      <button (click)="commitNode()" class="button--black margin-left">✔</button>
-      <button (click)="cancelAddition()" class="button--white margin-left">✖</button>
+
+      <ng-container *ngIf="node.uncommitted && node.type !== 'unset'">
+        <input [(ngModel)]="node.name" />
+        <button (click)="commitNode()" class="button-square button-black margin-left">✔</button>
+        <button (click)="cancelAddition()" class="button-square button-white margin-left">✖</button>
+      </ng-container>
+
+      <ng-container *ngIf="node.type === 'unset'">
+        <button (click)="node.type = 'file'">File</button>
+        <button (click)="node.type = 'folder'">Folder</button>
+      </ng-container>
+
     </ng-container>
-    <div class="node__hover-buttons" *ngIf="!node.uncommitted">
-      <button class="button--black margin-left" (click)="addFolder()">+</button>
-      <button class="button--white margin-left" (click)="deleteNode()">🗑</button>
+    <div class="hover-buttons" *ngIf="!node.uncommitted">
+      <button class="button-round button-black" (click)="addNode()" *ngIf="node.type === 'folder'">+</button>
+      <button class="button-round button-black" (click)="deleteNode()">🗑</button>
     </div>
   </div>
 
-  <div class="node__children" *ngIf="node.children?.length">
-    <app-node class="node__child" *ngFor="let node of node.children; trackBy: trackNode" [node]="node"></app-node>
+  <div class="children" *ngIf="node.children?.length">
+    <app-node class="child" *ngFor="let node of node.children" [node]="node"></app-node>
   </div>
 
 </div>

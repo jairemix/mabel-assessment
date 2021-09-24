@@ -7,28 +7,20 @@ import { FolderService } from '@/app/folder-service/folder.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'mabel-assessment';
+  title = 'mable-assessment';
 
-  rootNode$ = this.folderService.getRoot$();
-
-  trackNode = (_, node) => node.id;
-
-  constructor(private folderService: FolderService) {}
+  constructor(readonly folderService: FolderService) {}
 
   addFolderToRoot() {
-
-    this.folderService.addNode(this.folderService.getRoot(), {
-      name: 'my_first_folder',
+    this.folderService.addNode(this.folderService.rootNode, {
       type: 'folder',
       uncommitted: true,
       children: [],
     });
+  }
 
-    // this.folderService.addNode(this.folderService.getRoot(), {
-    //   name: 'my_first_folder',
-    //   type: 'folder',
-    //   children: [],
-    // });
+  getJSON() {
+    return JSON.stringify(this.folderService.rootNode, null, 2);
   }
 
 }
