@@ -5,7 +5,9 @@
 .main {
   display: inline-flex;
   align-items: center;
-  height: 20px;
+  position: relative;
+  height: 26px;
+  margin: 4px;
 }
 
 .icon {
@@ -29,33 +31,39 @@
   .children::before {
     content: '';
     display: block;
-    height: calc(100% - 2px);
-    border-left: solid 1px rgba(0, 0, 0, 0.5);
     position: absolute;
-    top: -10px;
+    height: calc(100% - 2px);
+    border-left: solid 1px #777;
+    border-bottom: solid 1px #777;
+    top: -18px;
     left: -13px;
+    width: 8px;
   }
   .child {
     position: relative;
     &::before {
       content: "";
       display: block;
-      height: 1px;
-      border-bottom: solid 1px rgba(0, 0, 0, 0.5);
       position: absolute;
-      bottom: 11px;
+      border-left: solid 1px #777;
+      border-bottom: solid 1px #777;
+      top: -32px;
       left: -13px;
       width: 8px;
+      height: 46px;
+    }
+    &:first-child::before {
+      height: 32px;
+      top: -18px;
     }
   }
 }
 
 .is-uncommitted {
-  border: solid 1px black;
-  display: inline-flex;
-  padding: 8px;
-  align-items: center;
-  margin: 0;
+  .main {
+    outline: solid 1px black;
+    outline-offset: 2px;
+  }
 }
 
 .hover-buttons {
@@ -64,6 +72,9 @@
 }
 
 .main:hover {
+  outline: solid 1px black;
+  outline-offset: 2px;
+
   .hover-buttons {
     display: inline-flex;
   }
