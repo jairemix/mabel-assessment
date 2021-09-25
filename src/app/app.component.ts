@@ -11,14 +11,20 @@ export class AppComponent {
 
   constructor(readonly folderService: FolderService) {}
 
-  addFolderToRoot() {
-    this.folderService.addNode(this.folderService.rootNode, {
+  /**
+   * appends a new folder to the root node. new node is uncommited - so the user needs to commit it with the tick button.
+   */
+  appendFolderToRoot() {
+    this.folderService.appendNode(this.folderService.rootNode, {
       type: 'folder',
       uncommitted: true,
       children: [],
     });
   }
 
+  /**
+   * @returns pretty printed JSON representation of the current node tree 
+   */
   getJSON() {
     return JSON.stringify(this.folderService.rootNode, null, 2);
   }

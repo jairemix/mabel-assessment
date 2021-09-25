@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { NodeModel } from '@/app/node.model';
-import { getTestRootNode } from './get-test-root-node';
 import { getUniqueID } from '@/app/util/get-unique-id';
+import { getTestRootNode } from './get-test-root-node';
 
+/**
+ * Service that contains node tree model and that manages addition and deletion of nodes to that tree
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class FolderService {
 
-  // rootNode: NodeModel = getTestRootNode();
-
+  /**
+   * root node of the tree that represents the folder structure 
+   */
   rootNode: NodeModel = {
     id: getUniqueID(),
     type: 'root',
@@ -17,34 +21,48 @@ export class FolderService {
   };
 
   constructor() {
-    console.log('folderService', this);
+    // sample data we can use if we need to generate a tree quickly for testing  
+    // this.rootNode = getTestRootNode();
   }
 
-  addNode(parent: NodeModel, node: Omit<NodeModel, 'id'>) {
+  /**
+   * Appends a new node to a parent node
+   * @param parent parent node to append the new node to
+   * @param nodeData node that is to be appended (without id property since this is generated automatically by this function)
+   */
+  appendNode(parent: NodeModel, nodeData: Omit<NodeModel, 'id'>) {
 
+    // add unique generated id to nodeData
     const newNode = {
       id: getUniqueID(),
-      ...node,
+      ...nodeData,
     };
 
-    // will have to make parent (and whole tree) immutable to use changeDetection.OnPush
+    // add newNode to parent.children
     parent.children = [
-      ...(parent.children || []),
+      ...(parent.children || []), // if children does not exist already, create it
       newNode,
     ];
 
   }
 
+  /**
+   * deletes node from the folder structure if it exists
+   * @param node node to be deleted
+   */
   deleteNode(node: NodeModel) {
     const parent = this.getNodeParent(node);
-    console.log('parent', parent);
     if (parent) {
-      parent.children = (parent.children || []).filter(n => n.id !== node.id);
+      parent.children = (parent.children || []).filter(n => n.id !== node.id); // remove node from children 
     } else {
       console.error('no parent found for node', node);
     }
   }
 
+  /**
+   * @param node whose parent is to be found
+   * @returns parent of node if it exists within the tree, undefined otherwise
+   */
   getNodeParent(node: NodeModel): undefined | NodeModel {
     return this._getNodeParent(this.rootNode, node);
   }
@@ -58,7 +76,7 @@ export class FolderService {
    */
   private _getNodeParent(node: NodeModel, childNode: NodeModel): undefined | NodeModel {
     const nodeChildren = node.children || [];
-    const isParent = nodeChildren.some((n) => n.id === childNode.id);
+    const isParent = nodeChildren.some((n) => n.id === childNode.id); // node is the parent if it contains the childNode
 
     if (isParent) { // base case: found
       return node;

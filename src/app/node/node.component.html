@@ -1,34 +1,38 @@
-<div class="node is-{{node.type}}" [class.is-visible]="node.type !== 'root'" [class.is-uncommitted]="node.uncommitted">
+<div class="node is-{{node.type}}" [class.is-uncommitted]="node.uncommitted">
   
   <!-- don't display node itself if it is root -->
   <div class="main" *ngIf="node.type !== 'root'">
 
+    <!-- node icon -->
     <ng-container [ngSwitch]="node.type">
       <img class="icon" src="../../assets/images/folder-open-regular.svg" *ngSwitchCase="'folder'" />
       <img class="icon" src="../../assets/images/file-regular.svg" *ngSwitchCase="'file'" />
     </ng-container>
 
     <span *ngIf="!node.uncommitted">{{node.name}}</span>
-    <ng-container *ngIf="node.uncommitted">
 
+    <!-- buttons and inputs to modify, commit or delete uncommitted node -->
+    <ng-container *ngIf="node.uncommitted">
       <ng-container *ngIf="node.uncommitted && node.type !== 'unset'">
         <input [(ngModel)]="node.name" />
         <button (click)="commitNode()" class="button-square button-black margin-left">✔</button>
-        <button (click)="cancelAddition()" class="button-square button-white margin-left">✖</button>
+        <button (click)="deleteNode()" class="button-square button-white margin-left">✖</button>
       </ng-container>
-
       <ng-container *ngIf="node.type === 'unset'">
         <button (click)="node.type = 'file'">File</button>
         <button (click)="node.type = 'folder'">Folder</button>
       </ng-container>
-
     </ng-container>
+
+    <!-- buttons to add or delete node  -->
     <div class="hover-buttons" *ngIf="!node.uncommitted">
-      <button class="button-round button-black" (click)="addNode()" *ngIf="node.type === 'folder'">+</button>
+      <button class="button-round button-black" (click)="appendNode()" *ngIf="node.type === 'folder'">+</button>
       <button class="button-round button-black" (click)="deleteNode()">🗑</button>
     </div>
+
   </div>
 
+  <!-- children of node (if any) -->
   <div class="children" *ngIf="node.children?.length">
     <app-node class="child" *ngFor="let node of node.children" [node]="node"></app-node>
   </div>

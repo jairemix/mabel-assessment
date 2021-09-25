@@ -2,7 +2,7 @@ import { getUniqueID } from '@/app/util/get-unique-id';
 import { NodeModel } from '../node.model';
 
 /**
- * @returns test root NodeModel data just for testing
+ * @returns root node of sample tree just for testing
  */
 export function getTestRootNode(): NodeModel {
   return {
