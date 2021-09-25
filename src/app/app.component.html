@@ -5,13 +5,16 @@
 
 <div class="content" role="main">
 
-  <button class="add-button" type="button" (click)="addFolderToRoot()">Add folder to root</button>
+  <div class="folder-structure-container">
+    <button class="add-button" type="button" (click)="addFolderToRoot()">Add folder to root</button>
+    <!-- render root node -->
+    <app-node [node]="folderService.rootNode"></app-node>
+  </div>
 
-  <!-- render root node -->
-  <app-node [node]="folderService.rootNode"></app-node>
-
-  <!-- display root node contents as JSON -->
-  <textarea class="json-representation" [ngModel]="getJSON()" disabled></textarea>
+  <div class="json-representation-container">
+    <!-- display root node contents as JSON -->
+    <textarea class="json-representation" [ngModel]="getJSON()" disabled></textarea>
+  </div>
 
 </div>
 
